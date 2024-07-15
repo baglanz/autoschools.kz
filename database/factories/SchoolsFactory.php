@@ -17,7 +17,12 @@ class SchoolsFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'description' => fake()->text(),
+            'address' => fake()->address(),
+            'image' => fake()->imageUrl(),
+            'website' => fake()->url(),
+            'price' => fake()->numberBetween(1000, 10000),
         ];
     }
 }
