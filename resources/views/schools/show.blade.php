@@ -11,11 +11,22 @@
                 <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">{{ $school->name }}</h1>
                 <p class="mb-8 leading-relaxed">{{ $school->description }}</p>
                 <div class="flex justify-center">
-                    <button class="inline-flex text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg">Button</button>
-                    <button class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Button</button>
+                    <button class="inline-flex text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg">
+                        <a href="{{ route('schools.edit', $school->id) }}">
+                            Edit school
+                        </a>
+                    </button>
+                    <button type="submit" form="delete-form"
+                            class="ml-4 inline-flex text-white bg-red-600 border-0 py-2 px-6 focus:outline-none hover:bg-red-700 rounded text-lg">
+                        Delete schools
+                    </button>
                 </div>
             </div>
         </div>
+        <form method="POST" action="{{ route('schools.destroy', $school->id) }}" class="hidden" id="delete-form">
+            @csrf
+            @method('DELETE')
+        </form>
     </section>
 
 @endsection

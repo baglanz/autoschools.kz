@@ -33,8 +33,6 @@ class SchoolsController extends Controller
             'name' => 'required',
             'address' => 'required',
             'description' => 'required',
-            'website' => 'required',
-            'phone' => 'required',
         ]);
 
         $school->create($data);
@@ -54,24 +52,34 @@ class SchoolsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Schools $school)
     {
-        //
+        return view('schools.edit', compact('school'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Schools $school)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'description' => 'required',
+        ]);
+
+        $school->update($data);
+
+        return redirect('/schools/' . $school->id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Schools $school)
     {
-        //
+        $school->delete();
+
+        return redirect('/schools');
     }
 }
