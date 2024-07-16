@@ -12,7 +12,7 @@ class SchoolsController extends Controller
      */
     public function index()
     {
-        $schools = Schools::all();
+        $schools = Schools::paginate(9);
         return view('schools.index', compact('schools'));
     }
 
@@ -21,23 +21,34 @@ class SchoolsController extends Controller
      */
     public function create()
     {
-        //
+        return view('schools.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Schools $school, Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'description' => 'required',
+            'website' => 'required',
+            'phone' => 'required',
+        ]);
+
+        $school->create($data);
+
+        return redirect('/schools');
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Schools $school)
     {
-        //
+        return view('schools.show', compact('school'));
     }
 
     /**

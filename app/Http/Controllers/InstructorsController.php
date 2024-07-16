@@ -12,7 +12,7 @@ class InstructorsController extends Controller
      */
     public function index()
     {
-        $instructors = Instructors::all();
+        $instructors = Instructors::paginate(9);
         return view('instructors.index', compact('instructors'));
     }
 
