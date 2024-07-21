@@ -19,10 +19,15 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('address')->nullable();
             $table->string('image')->nullable();
+            $table->string('opening')->nullable();
+            $table->double('rating')->nullable();
+            $table->integer('reviews')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('whatsapp')->nullable();
             $table->string('website')->nullable();
-            $table->json('phone')->nullable();
-            $table->json('whatsapp')->nullable();
+            $table->string('instagram')->nullable();
             $table->string('price')->nullable();
+            $table->string('2gis')->nullable();
             $table->timestamps();
         });
     }

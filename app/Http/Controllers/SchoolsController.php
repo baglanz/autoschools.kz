@@ -31,8 +31,18 @@ class SchoolsController extends Controller
     {
         $data = $request->validate([
             'name' => 'required',
-            'address' => 'required',
             'description' => 'required',
+            'address' => 'required',
+            'image' => 'required',
+            'opening' => 'required',
+            'price' => 'required',
+            'rating' => 'required|numeric',
+            'reviews' => 'required|numeric',
+            'phone' => 'required',
+            'whatsapp' => 'required',
+            'website' => 'required',
+            'instagram' => 'required',
+            '2gis' => 'required',
         ]);
 
         $school->create($data);
