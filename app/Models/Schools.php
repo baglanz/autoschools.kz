@@ -12,6 +12,11 @@ class Schools extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'opening' => 'array',
+        'phone' => 'array',
+        'whatsapp' => 'array',
+    ];
     public function sluggable(): array
     {
         return [

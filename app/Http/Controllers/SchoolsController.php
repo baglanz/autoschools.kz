@@ -34,7 +34,7 @@ class SchoolsController extends Controller
             'description' => 'required',
             'address' => 'required',
             'image' => 'required',
-            'opening' => 'required',
+            'opening' => 'nullable',
             'price' => 'required',
             'rating' => 'required|numeric',
             'reviews' => 'required|numeric',
@@ -45,10 +45,26 @@ class SchoolsController extends Controller
             '2gis' => 'required',
         ]);
 
+        if (isset($data['opening'])) {
+            $data['opening'] = json_encode($data['opening']);
+        } else {
+            $data['opening'] = json_encode([
+                'Monday' => '09:00 - 18:00',
+                'Tuesday' => '09:00 - 18:00',
+                'Wednesday' => '09:00 - 18:00',
+                'Thursday' => '09:00 - 18:00',
+                'Friday' => '09:00 - 18:00',
+                'Saturday' => '09:00 - 18:00',
+                'Sunday' => '09:00 - 18:00',
+            ]);
+        }
+
+        $data['phone'] = json_decode($data['phone'], true);
+        $data['whatsapp'] = json_decode($data['whatsapp'], true);
+
         $school->create($data);
 
         return redirect('/schools');
-
     }
 
     /**
@@ -56,7 +72,32 @@ class SchoolsController extends Controller
      */
     public function show(Schools $school)
     {
-        return view('schools.show', compact('school'));
+        $rating = $school->rating;
+        $opening = json_decode($school->opening, true);
+        $phones = json_decode($school->phone, true);
+        $whatsapps = json_decode($school->whatsapp, true);
+
+        if (!is_array($phones)) {
+            $phones = [];
+        }
+
+        if (!is_array($whatsapps)) {
+            $whatsapps = [];
+        }
+
+        if (!is_array($opening)) {
+            $opening = [
+                'Monday' => '09:00 - 18:00',
+                'Tuesday' => '09:00 - 18:00',
+                'Wednesday' => '09:00 - 18:00',
+                'Thursday' => '09:00 - 18:00',
+                'Friday' => '09:00 - 18:00',
+                'Saturday' => '09:00 - 18:00',
+                'Sunday' => '09:00 - 18:00',
+            ];
+        }
+
+        return view('schools.show', compact('school', 'opening', 'phones', 'whatsapps', 'rating'));
     }
 
     /**

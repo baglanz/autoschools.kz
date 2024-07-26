@@ -11,6 +11,15 @@
                 <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn
                     asymmetrical gentrify.</p>
             </div>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="lg:w-1/2 md:w-2/3 mx-auto">
                 <form action="{{ route('schools.store') }}" method="POST">
                     @csrf

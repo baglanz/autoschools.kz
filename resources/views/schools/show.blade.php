@@ -13,31 +13,44 @@
                     <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{ $school->name }}</h1>
                     <div class="flex mb-4">
           <span class="flex items-center">
-            <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                 stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
-              <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-            </svg>
-            <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                 stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
-              <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-            </svg>
-            <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                 stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
-              <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-            </svg>
-            <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                 stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
-              <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-            </svg>
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                 class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
-              <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-            </svg>
+            <span class="flex items-center">
+    @if ($rating !== null && $rating > 0)
+                    @for ($i = 1; $i <= 5; $i++)
+                        @if ($i <= floor($rating))
+                            <!-- Полная звезда -->
+                            <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                        @elseif ($i == ceil($rating))
+                            @if ($rating - floor($rating) >= 0.5)
+                                <!-- Полная звезда для значения >= 0.5 -->
+                                <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
+                            @else
+                                <!-- Полу-заполненная звезда -->
+                                <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+                        <defs>
+                            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="50%" stop-color="currentColor" />
+                                <stop offset="50%" stop-color="transparent" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="url(#grad)"></path>
+                    </svg>
+                            @endif
+                        @else
+                            <!-- Пустая звезда -->
+                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                        @endif
+                    @endfor
+                @else
+                    <!-- Скрыть поле если рейтинг отсутствует -->
+                    <span>No rating available</span>
+                @endif
+</span>
             <span class="text-gray-600 ml-3">{{ $school->reviews }} Reviews</span>
           </span>
                         <span class="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
@@ -74,14 +87,20 @@
                             <span class="title-font font-medium text-2xl text-gray-900">{{ $school->price }}</span>
                         </div>
                     @endif
-                    @if($school->phone)
-                        <div class="flex">
-                            <span class="title-font font-medium text-2xl text-gray-900">{{ $school->phone }}</span>
-                        </div>
+                    @if(!empty($phones) && is_array($phones))
+                        @foreach ($phones as $phone)
+                            <div class="flex">
+                                <span class="title-font font-medium text-2xl text-gray-900">{{ $phone }}</span>
+                            </div>
+                        @endforeach
                     @endif
-                    @if($school->whatsapp)
+                    @if(!empty($whatsapps) && is_array($whatsapps))
                         <div class="flex">
-                            <span class="title-font font-medium text-2xl text-gray-900"><a href="{{ $school->whatsapp }}">WhatsApp</a></span>
+                            <ul>
+                                @foreach ($whatsapps as $whatsapp)
+                                    <span class="title-font font-medium text-2xl text-gray-900"><a href="{{ $whatsapp }}">WhatsApp</a></span>
+                                @endforeach
+                            </ul>
                         </div>
                     @endif
                     @if($school->{'2gis'})
@@ -94,6 +113,14 @@
                             <span class="title-font font-medium text-2xl"><a href="{{ $school->instagram }}" class="text-blue">Instagram</a></span>
                         </div>
                     @endif
+                    @foreach ($opening as $day => $hours)
+                        <li>{{ $day }}: {{ $hours }}</li>
+                    @endforeach
+{{--                    @if($school->opening)--}}
+{{--                        <div class="flex">--}}
+{{--                            <span class="title-font font-medium text-2xl">{{ $school->opening }}</span>--}}
+{{--                        </div>--}}
+{{--                    @endif--}}
                 </div>
             </div>
             <div class="flex justify-center mt-6">
